@@ -46,7 +46,7 @@ def reply():
             return str(res)
         if option == 0:
             users.update_one({"number": number}, {"$set": {"status": "main"}})
-            res.message("You can choose from below options: \n (1) A \n (2) B \n (3) C")
+            res.message("You can choose from below options: \nKindly send below menu options: (1) Contact \n (2) Oreder \n (3) Working hours")
         elif 1 <= option <= 3:
             cakes = ["Red Velvet", "Dark forest", "Black current"]
             selected = cakes[option-1]
@@ -62,12 +62,12 @@ def reply():
         selected = user["item"]
         res.message("Thanks for ordering")
         res.message(f"Your order is {selected} and will be delivered on \naddress: {text}")
-        orders.insert_one({"number": number, "item" : selected, "address" : text, "date": datetime.now()})
+        orders.insert_one({"number": number, "item" : selected, "address" : text, "order_time": datetime.now()})
         users.update_one({"number": number}, {"$set": {"status": "ordered"}})
 
     elif user["status"] == "ordered":
         users.update_one({"number": number}, {"$set": {"status": "main"}})
-        res.message("You can choose from below options: \n (1) A \n (2) B \n (3) C")
+        res.message("You can choose from below options: \nKindly send below menu options: (1) Contact \n (2) Oreder \n (3) Working hours")
 
     users.update_one({"number" : number}, {"$push" : {"messages" : {"text" : text, "date": datetime.now()}}})
 
