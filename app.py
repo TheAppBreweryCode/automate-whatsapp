@@ -9,6 +9,7 @@ orders = db["orders"]
 
 app = Flask(__name__)
 
+selectedItems = []
 
 @app.route("/", methods=["get", "post"])
 def reply():
