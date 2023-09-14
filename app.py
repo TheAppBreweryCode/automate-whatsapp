@@ -38,7 +38,7 @@ def reply():
         else:
             res.message("Please enter a valid response")
             return str(res)
-        elif user["status"] == "ordering":
+    elif user["status"] == "ordering":
         try:
             option = int(text)
         except:
