@@ -18,7 +18,7 @@ def reply():
     res = MessagingResponse()
     user = users.find_one({"num" : number})
     if bool(user) == False:
-        res.message("Hi, thanks for contacting us. \nKindly send below menu options: (1) Contact \n (2) Oreder \n (3) Working hours")
+        res.message("Hi, thanks for contacting us. \nKindly send below menu options:\n (1) Contact \n (2) Oreder \n (3) Working hours")
         users.insert_one({"number": number, "status" : "main", "messages" : []})
     elif user["status"] == "main":
         try:
@@ -46,7 +46,7 @@ def reply():
             return str(res)
         if option == 0:
             users.update_one({"number": number}, {"$set": {"status": "main"}})
-            res.message("You can choose from below options: \nKindly send below menu options: (1) Contact \n (2) Oreder \n (3) Working hours")
+            res.message("You can choose from below options: \nKindly send below menu options:\n (1) Contact \n (2) Oreder \n (3) Working hours")
         elif 1 <= option <= 3:
             cakes = ["Red Velvet", "Dark forest", "Black current"]
             selected = cakes[option-1]
@@ -67,7 +67,7 @@ def reply():
 
     elif user["status"] == "ordered":
         users.update_one({"number": number}, {"$set": {"status": "main"}})
-        res.message("You can choose from below options: \nKindly send below menu options: (1) Contact \n (2) Oreder \n (3) Working hours")
+        res.message("You can choose from below options: \nKindly send below menu options:\n (1) Contact \n (2) Oreder \n (3) Working hours")
 
     users.update_one({"number" : number}, {"$push" : {"messages" : {"text" : text, "date": datetime.now()}}})
 
