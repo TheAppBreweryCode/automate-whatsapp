@@ -52,7 +52,7 @@ def reply():
         elif 1 <= option <= 3:
             cakes = ["Red Velvet", "Dark forest", "Black current"]
             selectedItems.append(cakes[option - 1])
-            users.update_one({"number": number}, {"$push": {"item": selectedItems}})
+            users.update_one({"number": number}, {"$set": {"item": selectedItems}})
             res.message("Excellent choice!!!")
             res.message("Do you want to add more\n Send y if yes\n Send n if no\n ")
             users.update_one({"number": number}, {"$set": {"status": "addmore"}})
