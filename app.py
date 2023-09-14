@@ -18,8 +18,8 @@ def reply():
     res = MessagingResponse()
     user = users.find_one({"num" : number})
     if bool(user) == False:
-        res.message("Hi, thanks for contacting us. \n (1) A \n (2) B \n (3) C")
-        users.insert_one({"number": number, "status" : "main", "message" : []})
+        res.message("Hi, thanks for contacting us. \nKindly send below menu options: (1) Contact \n (2) Oreder \n (3) Working hours")
+        users.insert_one({"number": number, "status" : "main", "messages" : []})
     elif user["status"] == "main":
         try:
             option = int(text)
@@ -30,7 +30,7 @@ def reply():
         if option == 1:
             res.message("You can contact A")
         elif option == 2:
-            res.message("You can contact B")
+            res.message("Entered ordering mode")
             users.update_one({"number" : number}, {"$set" : {"status" : "ordering"}})
             res.message("You have entered ordering mode \n (1) Red Velvet \n (2) Dark forest \n (3) Black current \n (0) Go back")
         elif option == 3:
