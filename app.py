@@ -38,7 +38,7 @@ def reply():
         else:
             res.message("Please enter a valid response")
             return str(res)
-    elif user["status"] == "ordering":
+        elif user["status"] == "ordering":
         try:
             option = int(text)
         except:
@@ -46,17 +46,28 @@ def reply():
             return str(res)
         if option == 0:
             users.update_one({"number": number}, {"$set": {"status": "main"}})
-            res.message("You can choose from below options: \nKindly send below menu options:\n (1) Contact \n (2) Order \n (3) Working hours")
+            res.message(
+                "You can choose from below options: \nKindly send below menu options:\n (1) Contact \n (2) Order \n (3) Working hours")
         elif 1 <= option <= 3:
             cakes = ["Red Velvet", "Dark forest", "Black current"]
-            selected = cakes[option-1]
-            users.update_one({"number": number}, {"$set": {"status": "address"}})
-            users.update_one({"number": number}, {"$set": {"item": selected}})
+            selectedItems.append(cakes[option - 1])
+            users.update_one({"number": number}, {"$set": {"item": selectedItems}})
             res.message("Excellent choice!!!")
-            res.message("Please enter your postal address")
-
+            res.message("Do you want to add more\n Send y if yes\n Send n if no\n ")
+            users.update_one({"number": number}, {"$set": {"status": "addmore"}})
+            
         else:
             res.message("Please enter a valid response")
+
+    elif user["status"] == "addmore":
+        if text == "y".casefold():
+            res.message(
+                "Add more from below items: \n (1) Red Velvet \n (2) Dark forest \n (3) Black current")
+            users.update_one({"number": number}, {"$set": {"status": "ordering"}})
+
+        elif text == "n".casefold():
+            users.update_one({"number": number}, {"$set": {"status": "address"}})
+            res.message("Please enter your postal address")
 
     elif user["status"] == "address":
         selected = user["item"]
