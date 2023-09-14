@@ -17,7 +17,7 @@ def reply():
     number = number.replace("whatsapp:", "")
     res = MessagingResponse()
     user = users.find_one({"num" : number})
-    if bool(user) == False:
+    if not bool(user):
         res.message("Hi, thanks for contacting us. \nKindly send below menu options:\n (1) Contact \n (2) Oreder \n (3) Working hours")
         users.insert_one({"number": number, "status" : "main", "messages" : []})
     elif user["status"] == "main":
