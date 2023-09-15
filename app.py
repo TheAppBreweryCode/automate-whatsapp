@@ -96,6 +96,43 @@ def reply():
 
     return str(res)
 
+
+
+@app.route('/user/<string:number>', methods = ['GET'])
+def getuser(number):
+        user = users.find_one({"number": number})
+        print(f"user -> {user}")
+        if bool(user):
+            return jsonify({'apistatus': 'success', 'apimessage': 'data is available', 'data': {'fetchedOn': datetime.now(), 'status': user['status'], 'number': user['number'], 'item': user['item'], 'messages': user['messages']}})
+        else:
+            return jsonify({'apistatus': 'success', 'apimessage': 'data is available'})
+
+
+@app.route('/updateStatus', methods = ['POST'])
+def setstatus():
+    res = MessagingResponse()
+    input_json = request.get_json(force=True)
+    number = input_json['number']
+    statusToUpdate = input_json['status']
+    user = users.find_one({"number": number})
+    print(f"user -> {user}")
+
+    if bool(user):
+        users.update_one({"number": number}, {"$set": {"status": statusToUpdate}})
+
+        print(f"\nUPDATED User -> {user}")
+        updateduser = users.find_one({"number": number})
+        res.message(f"Your order status is {statusToUpdate}")
+
+        return jsonify({'apistatus': 'success', 'apimessage': 'data is available',
+                            'data': {'fetchedOn': datetime.now(), 'status': updateduser['status'], 'number': updateduser['number'],
+                                     'item': updateduser['item'], 'messages': updateduser['messages']}})
+    else:
+        return jsonify({'apistatus': 'success', 'apimessage': 'data is available'})
+
+
+
+
 if __name__ == "__main__":
     app.run()
 
