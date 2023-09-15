@@ -81,9 +81,9 @@ def reply():
         users.update_one({"number": number}, {"$set": {"status": "main"}})
         res.message("You can choose from below options: \nKindly send below menu options:\n (1) Contact \n (2) Order \n (3) Working hours")
 
-    else:
-        newstatus = user["status"]
-        res.message(f"Your order status is: {newstatus}")
+    # else:
+    #     newstatus = user["status"]
+    #     res.message(f"Your order status is: {newstatus}")
 
     users.update_one({"number" : number}, {"$push" : {"messages" : {"text" : text, "date": datetime.now()}}})
 
