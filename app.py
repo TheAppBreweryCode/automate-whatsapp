@@ -127,7 +127,7 @@ def setstatus():
         print(f"\nUPDATED User -> {user}")
         updateduser = users.find_one({"number": number})
         res.message(f"Your order status is {statusToUpdate}")
-        reply()
+       
         return jsonify({'apistatus': 'success', 'apimessage': 'data is available',
                             'data': {'fetchedOn': datetime.now(), 'status': updateduser['status'], 'number': updateduser['number'],
                                      'item': updateduser['item'], 'messages': updateduser['messages']}})
